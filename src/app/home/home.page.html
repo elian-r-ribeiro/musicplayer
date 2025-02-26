@@ -1,0 +1,16 @@
+<ion-content [fullscreen]="true">
+  <div class="background">
+    <img class="backgroundImage" src={{currentSongImage}}/>
+  </div>
+  <div class="player">
+    <h1 class="musicTitle">{{currentSongName}}</h1>
+    <p class="musicOwner">{{currentSongOwner}}</p>
+    <div class="playerControls">
+      <img class="musicImage" src={{currentSongImage}}/>
+      <ion-icon (click)="previousSong()" name="play-skip-back" class="playerControl"></ion-icon>
+      <ion-icon *ngIf="!isSongPlaying" (click)="playSong()" name="play" class="playerControl"></ion-icon>
+      <ion-icon *ngIf="isSongPlaying" (click)="pauseSong()" name="pause" class="playerControl"></ion-icon>
+      <ion-icon (click)="nextSong()" name="play-skip-forward" class="playerControl"></ion-icon>
+    </div>
+  </div>
+</ion-content>
