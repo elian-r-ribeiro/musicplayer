@@ -25,4 +25,9 @@
       <ion-icon (click)="nextSong()" name="play-skip-forward" class="playerControl"></ion-icon>
     </div>
   </div>
+
+  <div class="volumeController">
+    <ion-icon class="volumeIcon" name="volume-high"></ion-icon>
+    <ion-range  class="volumeBar" [(ngModel)]="volume" (ionChange)="adjustVolume()"></ion-range>
+  </div>
 </ion-content>

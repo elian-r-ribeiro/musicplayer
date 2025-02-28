@@ -133,3 +133,32 @@
   }
 }
 
+.volumeController{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  position: absolute;
+  background-color: white;
+  border-radius: 20px;
+  width: 200px;
+  height: 50px;
+  margin-left: 80%;
+  box-shadow: 0 24px 28px rgba(0, 0, 0, 0.5);
+
+  .volumeIcon{
+    color: black;
+    position: absolute;
+    margin-left: 3%;
+    font-size: x-large;
+  }
+
+  .volumeBar{
+    width: 75%;
+    margin-left: 16%;
+    --bar-background: rgb(201, 201, 201); 
+    --bar-background-active: black; 
+    --knob-background: black; 
+  }
+}
+

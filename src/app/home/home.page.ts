@@ -19,6 +19,7 @@ export class HomePage implements OnInit {
         
         this.audio.addEventListener('loadedmetadata', () => {
           this.setSongInfo(ramdomIndex, this.audio!.duration);
+          this.volume = this.audio!.volume * 100;
         });
       }
   }
@@ -29,6 +30,7 @@ export class HomePage implements OnInit {
   currentTimeOfTheSong?: number = 0;
   currentSongDuration?: number = 0;
   progress: number = 0;
+  volume: number = 1;
   currentSongIndex = 0;
   isSongPlaying = false;
   audio?: HTMLAudioElement;
@@ -38,20 +40,23 @@ export class HomePage implements OnInit {
       title: 'Meteoro',
       artist: 'Luan Santana',
       image: '../../assets/images/luan-santana.jpg',
-      audio: '../../assets/songs/meteoro.mp3'
+      audio: '../../assets/songs/meteoro.mp3',
+      genre: 'sertanejo'
     },
     {
       title: 'Lepo Lepo',
       artist: 'Psirico',
       image: '../../assets/images/psirico.jpg',
-      audio: '../../assets/songs/lepo-lepo.mp3'
+      audio: '../../assets/songs/lepo-lepo.mp3',
+      genre: 'sertanejo'
     },
-    // {
-    //   title: 'Sonne [TIKTOK VERSION]',
-    //   artist: 'Rammstein',
-    //   image: '../../assets/images/rammstein.jpg',
-    //   audio: '../../assets/songs/sonne.mp3'
-    // },
+    {
+      title: 'Sonne [TIKTOK VERSION]',
+      artist: 'Rammstein',
+      image: '../../assets/images/rammstein.jpg',
+      audio: '../../assets/songs/sonne.mp3',
+      genre: 'metal'
+    },
   ]
 
   songsAmount: number = this.songs.length;
@@ -141,5 +146,11 @@ export class HomePage implements OnInit {
     const minutes: number = Math.floor(timeInSeconds / 60);
     const seconds: number = Math.floor(timeInSeconds % 60);
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  }
+
+  adjustVolume() {
+    if(this.audio){
+      this.audio.volume = this.volume / 100;
+    }
   }
 }
