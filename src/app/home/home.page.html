@@ -2,10 +2,17 @@
   <div class="background">
     <img class="backgroundImage" src={{currentSongImage}}/>
   </div>
+  <div class="songsList">
+    <div (click)="playSongByIndex(i)" *ngFor="let song of songs; let i = index" class="songContainer">
+      <img class="songImage" src={{songs[i].image}}/>
+      <p class="songTitle">{{songs[i].title}}</p>
+      <p class="songOwner">{{songs[i].artist}}</p>
+    </div>
+  </div>
   <div class="player">
-    <img class="musicImage" src={{currentSongImage}}/>
-    <h1 class="musicTitle">{{currentSongName}}</h1>
-    <p class="musicOwner">{{currentSongOwner}}</p>
+    <img class="songImage" src={{currentSongImage}}/>
+    <h1 class="songTitle">{{currentSongName}}</h1>
+    <p class="songOwner">{{currentSongOwner}}</p>
     <div class="progress-container">
       <span class="currentSongTime">{{ formatTime(currentTimeOfTheSong!) }}</span>
       <ion-range class="songProgressBar" [(ngModel)]="progress" (ionChange)="seek($event)"></ion-range>

@@ -46,13 +46,24 @@ export class HomePage implements OnInit {
       image: '../../assets/images/psirico.jpg',
       audio: '../../assets/songs/lepo-lepo.mp3'
     },
-    {
-      title: 'Sonne [TIKTOK VERSION]',
-      artist: 'Rammstein',
-      image: '../../assets/images/rammstein.jpg',
-      audio: '../../assets/songs/sonne.mp3'
-    },
+    // {
+    //   title: 'Sonne [TIKTOK VERSION]',
+    //   artist: 'Rammstein',
+    //   image: '../../assets/images/rammstein.jpg',
+    //   audio: '../../assets/songs/sonne.mp3'
+    // },
   ]
+
+  songsAmount: number = this.songs.length;
+
+  playSongByIndex(index: number) {
+    this.currentSongIndex = index;
+    this.audio!.src = this.songs[index].audio;
+    this.audio!.addEventListener('loadedmetadata', () => {
+      this.setSongInfo(index, this.audio!.duration);
+    });
+    this.playSong();
+  }
 
   playSong() {
     if(this.audio == undefined) {
