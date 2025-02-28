@@ -36,9 +36,13 @@
     border-radius: 20px;
     box-shadow: 0 24px 28px rgba(0, 0, 0, 0.5);
   }
+  
+  ion-range {
+    flex-grow: 1;
+  }
 
   .musicTitle{
-    margin-top: 40%;
+    margin-top: 50%;
     color: black;
   }
 
@@ -47,9 +51,37 @@
     color: black;
   }
 
-  .playerControls{
+  .progress-container {
+    display: flex;
+    align-items: center;
+    width: 90%;
+
+    .currentSongTime{
+      margin-right: 2%;
+    }
+
+    .currentSongDuration{
+      margin-left: 2%;
+    }
+
+    span {
+      font-size: 14px;
+      color: black;
+      width: 40px;
+      text-align: center;
+    }
+
+    .songProgressBar {
+      --bar-background: rgb(201, 201, 201); 
+      --bar-background-active: black; 
+      --knob-background: black; 
+    }
+  }
+  
+  .playerControlsContainer{
     font-size: 40px;
     color: black;
+    cursor: pointer;
   }
 }
 

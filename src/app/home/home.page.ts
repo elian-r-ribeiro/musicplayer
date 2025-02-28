@@ -13,14 +13,22 @@ export class HomePage implements OnInit {
   ngOnInit(): void {
       if(this.audio == undefined) {
         this.audio = new Audio();
+        const ramdomIndex = Math.floor(Math.random() * this.songs.length);
+        this.currentSongIndex = ramdomIndex;
         this.audio.src = this.songs[this.currentSongIndex].audio;
-        this.setSongInfo(this.currentSongIndex);
+        
+        this.audio.addEventListener('loadedmetadata', () => {
+          this.setSongInfo(ramdomIndex, this.audio!.duration);
+        });
       }
   }
 
   currentSongName?: string;
   currentSongOwner?: string;
   currentSongImage?: string;
+  currentTimeOfTheSong?: number = 0;
+  currentSongDuration?: number = 0;
+  progress: number = 0;
   currentSongIndex = 0;
   isSongPlaying = false;
   audio?: HTMLAudioElement;
@@ -50,16 +58,28 @@ export class HomePage implements OnInit {
     if(this.audio == undefined) {
       this.audio = new Audio();
       this.audio.src = this.songs[this.currentSongIndex].audio;
-      this.setSongInfo(this.currentSongIndex);
+      this.setSongInfo(this.currentSongIndex, this.audio!.duration);
+
     }
     this.isSongPlaying = true;
     this.audio.play();
+
+    this.audio.ontimeupdate = () => {
+      this.currentTimeOfTheSong = this.audio!.currentTime;
+      this.currentSongDuration = this.audio!.duration;
+      this.progress = (this.currentTimeOfTheSong / this.currentSongDuration) * 100;
+    };
+
+    this.audio.onended = () => {
+      this.nextSong();
+    };
   }
 
-  setSongInfo(index: number) {
+  setSongInfo(index: number, duration: number) {
     this.currentSongName = this.songs[index].title;
     this.currentSongOwner = this.songs[index].artist;
     this.currentSongImage = this.songs[index].image;
+    this.currentSongDuration = duration;
   }
 
   pauseSong() {
@@ -69,17 +89,46 @@ export class HomePage implements OnInit {
 
   nextSong() {
     this.currentSongIndex++;
+
+    if(this.currentSongIndex >= this.songs.length) {
+      this.currentSongIndex = 0;
+    }
+
     this.isSongPlaying = true;
     this.audio!.src = this.songs[this.currentSongIndex].audio;
-    this.setSongInfo(this.currentSongIndex);
+    this.audio!.addEventListener('loadedmetadata', () => {
+      this.setSongInfo(this.currentSongIndex, this.audio!.duration);
+    });
     this.audio!.play();
+    this.resetProgress();
   }
 
   previousSong() {
     this.currentSongIndex--;
     this.isSongPlaying = true;
     this.audio!.src = this.songs[this.currentSongIndex].audio;
-    this.setSongInfo(this.currentSongIndex);
+    this.audio!.addEventListener('loadedmetadata', () => {
+      this.setSongInfo(this.currentSongIndex, this.audio!.duration);
+    });
     this.audio!.play();
+    this.resetProgress();
+  }
+
+  resetProgress() {
+    this.currentTimeOfTheSong = 0;
+    this.currentSongDuration = 0;
+    this.progress = 0;
+  }
+
+  seek(event: any) {
+    const seekTime = (event.detail.value / 100) * this.currentSongDuration!;
+    this.audio!.currentTime = seekTime;
+  }
+
+  formatTime(timeInSeconds: number): string {
+    if (!timeInSeconds) return '00:00';
+    const minutes: number = Math.floor(timeInSeconds / 60);
+    const seconds: number = Math.floor(timeInSeconds % 60);
+    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   }
 }

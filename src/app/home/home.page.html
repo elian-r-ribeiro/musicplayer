@@ -3,10 +3,15 @@
     <img class="backgroundImage" src={{currentSongImage}}/>
   </div>
   <div class="player">
+    <img class="musicImage" src={{currentSongImage}}/>
     <h1 class="musicTitle">{{currentSongName}}</h1>
     <p class="musicOwner">{{currentSongOwner}}</p>
-    <div class="playerControls">
-      <img class="musicImage" src={{currentSongImage}}/>
+    <div class="progress-container">
+      <span class="currentSongTime">{{ formatTime(currentTimeOfTheSong!) }}</span>
+      <ion-range class="songProgressBar" [(ngModel)]="progress" (ionChange)="seek($event)"></ion-range>
+      <span class="currentSongDuration">{{ formatTime(currentSongDuration!) }}</span>
+    </div>
+    <div class="playerControlsContainer">
       <ion-icon (click)="previousSong()" name="play-skip-back" class="playerControl"></ion-icon>
       <ion-icon *ngIf="!isSongPlaying" (click)="playSong()" name="play" class="playerControl"></ion-icon>
       <ion-icon *ngIf="isSongPlaying" (click)="pauseSong()" name="pause" class="playerControl"></ion-icon>
