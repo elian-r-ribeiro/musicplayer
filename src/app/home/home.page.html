@@ -2,7 +2,13 @@
   <div class="background">
     <img class="backgroundImage" src={{currentSongImage}}/>
   </div>
-  <div class="songsList">
+  <div class="genreList">
+    <div (click)="selectGenre(genre)" *ngFor="let genre of possibleGenres; let i = index" class="genreContainer">
+      <ion-icon class="genreIcon" name="folder-open"></ion-icon>
+      <p class="genreTitle">{{genre}}</p>
+    </div>
+  </div>
+  <div class="songsList" *ngIf="isGenreSelected">
     <div (click)="playSongByIndex(i)" *ngFor="let song of songs; let i = index" class="songContainer">
       <img class="songImage" src={{songs[i].image}}/>
       <p class="songTitle">{{songs[i].title}}</p>

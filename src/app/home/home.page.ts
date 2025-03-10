@@ -27,13 +27,17 @@ export class HomePage implements OnInit {
   currentSongName?: string;
   currentSongOwner?: string;
   currentSongImage?: string;
+  selectedGenre?: string;
   currentTimeOfTheSong?: number = 0;
   currentSongDuration?: number = 0;
   progress: number = 0;
   volume: number = 1;
   currentSongIndex = 0;
   isSongPlaying = false;
+  isGenreSelected = false;
   audio?: HTMLAudioElement;
+
+  possibleGenres = ['Sertanejo', 'Metal', 'Todas'];
 
   songs = [
     {
@@ -59,7 +63,40 @@ export class HomePage implements OnInit {
     },
   ]
 
+  originalSongs = this.songs;
+
   songsAmount: number = this.songs.length;
+
+  selectGenre(genre: string) {
+    genre = genre.toLowerCase();
+
+    if(this.isGenreSelected){
+      if(this.selectedGenre === genre) {
+        this.isGenreSelected = false;
+        this.songs = this.originalSongs;
+      } else {
+        this.filterSongs(genre);
+      }
+    } else {
+      this.filterSongs(genre);
+    }
+    console.log(this.isGenreSelected)
+  }
+
+  filterSongs(genre: string) {
+    if(genre === 'todas') {
+      this.isGenreSelected = true;
+      this.songs = this.originalSongs;
+      this.songsAmount = this.songs.length;
+      this.selectedGenre = genre;
+    } else {
+      this.songs = this.originalSongs;
+      this.isGenreSelected = true;
+      this.songs = this.songs.filter(song => song.genre === genre);
+      this.songsAmount = this.songs.length;
+      this.selectedGenre = genre;
+    }
+  }
 
   playSongByIndex(index: number) {
     this.currentSongIndex = index;
